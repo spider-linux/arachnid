@@ -2,6 +2,7 @@
 
 import src.stower as stower
 
-stow = stower.Stower()
+stower = stower.Stower()
 
-stow.unstow("/opt/dwm-6.4/")
+stower.stow("/opt/dwm-6.4/")
+stower.unstow("/opt/dwm-6.4/")

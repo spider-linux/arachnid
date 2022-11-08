@@ -7,8 +7,6 @@ class Stower(object):
         for root, dirs, files in os.walk(package):
             root = root.replace(package, "")
 
-            # print(root, dirs, files)
-
             if not root:
                 continue
 
@@ -16,10 +14,7 @@ class Stower(object):
             same_dir = os.path.isdir(target_found)
 
             if not same_dir:
-                # print(f"{root} is not a directory in {target}. creating..")
                 os.mkdir(target_found)
-            # else:
-            #     print(f":) found {root} in {target_found}.")
 
             if not files:
                 continue
@@ -32,7 +27,7 @@ class Stower(object):
                     print(f"{target_symlink}: found symlink: cannot stow again.")
                     continue
 
-                print(f"[!] linking {target_symlink} to {package_file}")
+                print(f"linking {target_symlink} to {package_file}")
 
                 os.symlink(package_file, target_symlink)
 
