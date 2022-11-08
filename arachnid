@@ -1,0 +1,7 @@
+#!/usr/bin/python3
+
+import src.stower as stower
+
+stow = stower.Stower()
+
+stow.unstow("/opt/dwm-6.4/")

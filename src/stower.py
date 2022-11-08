@@ -54,14 +54,3 @@ class Stower(object):
                 if os.path.islink(target_symlink):
                     print(f"unlinking {target_symlink}")
                     os.unlink(target_symlink)
-
-
-def main():
-    stow = Stower()
-
-    # must have a trailing / every time just because it is good practise and i have built that practise up
-    stow.stow("/opt/hello-2.12.1/")
-    # stow.unstow("/opt/hello-2.12.1/")
-
-if __name__ == '__main__':
-    main()
