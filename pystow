@@ -50,7 +50,6 @@ class Stower(object):
 
             for f in files:
                 target_symlink = os.path.join(target, os.path.join(root, f))
-                package_file = os.path.join(package, root, f)
 
                 if os.path.islink(target_symlink):
                     print(f"unlinking {target_symlink}")
@@ -62,7 +61,7 @@ def main():
 
     # must have a trailing / every time just because it is good practise and i have built that practise up
     stow.stow("/opt/hello-2.12.1/")
-    stow.unstow("/opt/hello-2.12.1/")
+    # stow.unstow("/opt/hello-2.12.1/")
 
 if __name__ == '__main__':
     main()
