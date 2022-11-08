@@ -1,0 +1,68 @@
+#!/usr/bin/python
+
+import os
+
+class Stower(object):
+    def stow(self, package, target="/"):
+        for root, dirs, files in os.walk(package):
+            root = root.replace(package, "")
+
+            # print(root, dirs, files)
+
+            if not root:
+                continue
+
+            target_found = os.path.join(target, root)
+            same_dir = os.path.isdir(target_found)
+
+            if not same_dir:
+                # print(f"{root} is not a directory in {target}. creating..")
+                os.mkdir(target_found)
+            # else:
+            #     print(f":) found {root} in {target_found}.")
+
+            if not files:
+                continue
+
+            for f in files:
+                target_symlink = os.path.join(target, os.path.join(root, f))
+                package_file = os.path.join(package, root, f)
+
+                if os.path.islink(target_symlink):
+                    print(f"{target_symlink}: found symlink: cannot stow again.")
+                    continue
+
+                print(f"[!] linking {target_symlink} to {package_file}")
+
+                os.symlink(package_file, target_symlink)
+
+    def unstow(self, package, target="/"):
+        for root, dirs, files in os.walk(package):
+            root = root.replace(package, "")
+
+            if not root:
+                continue
+
+            target_found = os.path.join(target, root)
+
+            if not files:
+                continue
+
+            for f in files:
+                target_symlink = os.path.join(target, os.path.join(root, f))
+                package_file = os.path.join(package, root, f)
+
+                if os.path.islink(target_symlink):
+                    print(f"unlinking {target_symlink}")
+                    os.unlink(target_symlink)
+
+
+def main():
+    stow = Stower()
+
+    # must have a trailing / every time just because it is good practise and i have built that practise up
+    stow.stow("/opt/hello-2.12.1/")
+    stow.unstow("/opt/hello-2.12.1/")
+
+if __name__ == '__main__':
+    main()
