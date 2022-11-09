@@ -1,8 +1,13 @@
 #!/usr/bin/python3.11
 
-import src.stower as stower
+import argparse
+import src.builder as builder
 
-stower = stower.Stower()
+arg_parser = argparse.ArgumentParser(description="The Arachnid Package Manager")
 
-stower.stow("/opt/dwm-6.4/")
-stower.unstow("/opt/dwm-6.4/")
+arg_parser.add_argument("-b", "--build", nargs=1, metavar="<file.toml>", required=False)
+
+args = arg_parser.parse_args()
+
+if args.build:
+    builder.build_package(args.build[0])
