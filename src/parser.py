@@ -1,4 +1,5 @@
 import tomllib
+import os
 
 # Stole this from https://joelmccune.com/python-dictionary-as-object/ because I'm lazy
 # It does the job too.
@@ -12,6 +13,7 @@ class BuildFileToObject(object):
                setattr(self, key, BuildFileToObject(val) if isinstance(val, dict) else val)
 
 def parse_build_file(file):
+    # file = os.path.join(file)
     with open(file, "rb") as f:
         build_file = tomllib.load(f)
         package = BuildFileToObject(build_file)
