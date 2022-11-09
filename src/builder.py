@@ -3,6 +3,7 @@ import parser
 import os
 import urllib.request
 import mimetypes
+import subprocess
 
 def get_sources(build_file, build_directory):
     for source in package.sources.urls:
@@ -29,7 +30,7 @@ def build_package(build_file):
     get_sources(build_file, build_directory)
 
     print(f"extracting archives in {build_directory}")
-    extracted_dir_name = package.meta.name + "-" + str(package.meta.version)
+    extracted_dir_name = package.meta.name
     with os.scandir(build_directory) as dir:
         for entry in dir:
             try:
@@ -46,8 +47,11 @@ def build_package(build_file):
     os.chdir(extracted_dir_name)
 
     commands = [command for command in package.build.install]
-    print(commands)
-    os.system(" && ".join(commands))
+    subprocess.run(" && ".join(commands), shell=True)
+
+    print(f"removing {os.getcwd()}")
+    os.chdir("..")
+    shutil.rmtree(extracted_dir_name, ignore_errors=False)
 
 package = parser.parse_build_file("bash-example.toml")
 build_package("bash-example.toml")
