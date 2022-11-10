@@ -1,13 +1,19 @@
 #!/usr/bin/python3.11
 
 import argparse
-import src.builder as builder
+import src.installer as installer
+import src.stower as stower
 
 arg_parser = argparse.ArgumentParser(description="The Arachnid Package Manager")
 
-arg_parser.add_argument("-b", "--build", nargs=1, metavar="<file.toml>", required=False)
+arg_parser.add_argument("-i", "--install", nargs=1, metavar="<package>", required=False)
+arg_parser.add_argument("-r", "--remove", nargs=1, metavar="<package>", required=False)
 
 args = arg_parser.parse_args()
 
-if args.build:
-    builder.build_package(args.build[0])
+if args.install:
+    installer.build_install_package(args.install[0])
+
+# if args.remove:
+#     stower = stower.Stower()
+#     stower.unstow(args.remove[0])

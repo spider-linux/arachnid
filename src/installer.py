@@ -1,5 +1,6 @@
 import shutil
 import src.parser as parser
+import src.stower as stower
 import os
 import urllib.request
 import mimetypes
@@ -13,7 +14,7 @@ def get_sources(build_file, build_directory):
         *_, source_file = source.split("/")
         urllib.request.urlretrieve(source, os.path.join(build_directory, source_file))
 
-def build_package(build_file):
+def build_install_package(build_file):
     build_file = os.path.abspath(build_file)
     package = parser.parse_build_file(build_file)
 
@@ -57,4 +58,12 @@ def build_package(build_file):
     log.log(f"removing {os.getcwd()}")
     os.chdir("..")
     shutil.rmtree(extracted_dir_name, ignore_errors=False)
+
+    with os.scandir("/opt") as opt:
+        for entry in opt:
+            if f"{package.meta.name}-{package.meta.version}" in entry.name:
+                target_install_directory = f"{entry.path}/"
+
+    stow = stower.Stower()
+    stow.stow(target_install_directory)
 

@@ -1,9 +1,13 @@
 #!/usr/bin/python
 
 import os
+import src.log as log
 
 class Stower(object):
+    def init(self): pass
+
     def stow(self, package, target="/"):
+        log.log(f"installing {package}")
         for root, dirs, files in os.walk(package):
             root = root.replace(package, "")
 
@@ -20,7 +24,7 @@ class Stower(object):
                 continue
 
             for f in files:
-                target_symlink = os.path.join(target, os.path.join(root, f))
+                target_symlink = os.path.join(target, root, f)
                 package_file = os.path.join(package, root, f)
 
                 if os.path.islink(target_symlink):
@@ -32,6 +36,7 @@ class Stower(object):
                 os.symlink(package_file, target_symlink)
 
     def unstow(self, package, target="/"):
+        log.log(f"uninstalling {package}")
         for root, dirs, files in os.walk(package):
             root = root.replace(package, "")
 
