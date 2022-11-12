@@ -2,6 +2,7 @@
 
 import argparse
 import src.installer as installer
+import src.remover as remover
 import src.stower as stower
 
 arg_parser = argparse.ArgumentParser(description="The Arachnid Package Manager")
@@ -14,6 +15,5 @@ args = arg_parser.parse_args()
 if args.install:
     installer.build_install_package(args.install[0])
 
-# if args.remove:
-#     stower = stower.Stower()
-#     stower.unstow(args.remove[0])
+if args.remove:
+    remover.remove_package(args.remove[0])
