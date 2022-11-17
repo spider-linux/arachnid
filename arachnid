@@ -13,7 +13,7 @@ arg_parser.add_argument("-r", "--remove", nargs=1, metavar="<package>", required
 args = arg_parser.parse_args()
 
 if args.install:
-    installer.build_install_package(args.install[0])
+    installer.build_and_install_package(args.install[0])
 
 if args.remove:
     remover.remove_package(args.remove[0])
