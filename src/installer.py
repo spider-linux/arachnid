@@ -24,14 +24,7 @@ def build_and_install_package(build_file):
     source_directories = []
 
     arachnid_build_directory = tempfile.mkdtemp()
-
-    if os.path.exists(arachnid_build_directory):
-        log.log(f"{arachnid_build_directory} exists already, removing")
-        shutil.rmtree(arachnid_build_directory, ignore_errors=False)
-
     log.log(f"creating {arachnid_build_directory}")
-
-    os.makedirs(arachnid_build_directory)
 
     log.log(f"moving into {arachnid_build_directory}")
     os.chdir(arachnid_build_directory)
@@ -58,9 +51,10 @@ def build_and_install_package(build_file):
     build_commands = [command for command in package.build.install]
     subprocess.run(" && ".join(build_commands), shell=True)
 
-    log.log(f"removing {os.getcwd()}")
-    os.chdir("..")
-    shutil.rmtree(package_source_directory, ignore_errors=False)
+    os.chdir(f"{arachnid_build_directory}/..")
+
+    log.log(f"removing {arachnid_build_directory}")
+    shutil.rmtree(arachnid_build_directory, ignore_errors=False)
 
     with os.scandir("/opt") as package_installation_directory:
         for entry in package_installation_directory:
