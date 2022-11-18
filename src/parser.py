@@ -14,6 +14,8 @@ class BuildFileToObject(object):
 
 def parse_build_file(file):
     # file = os.path.join(file)
+    if not file.endswith("toml"):
+        file = f"{file}.toml"
     with open(file, "rb") as f:
         build_file = tomllib.load(f)
         package = BuildFileToObject(build_file)
