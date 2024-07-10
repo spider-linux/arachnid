@@ -1,1 +1,5 @@
-__pycache__/
+.direnv/
+PKGBUILD
+arachnid
+gcc-PKGBUILD
+log
